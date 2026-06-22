@@ -1,0 +1,17 @@
+# This is a config for E2B sandbox template.
+# You can use template ID (dh2gjousvchnvryk83xs) or template name (cli-webiste-builder) to create a sandbox:
+
+# Python SDK
+# from e2b import Sandbox, AsyncSandbox
+# sandbox = Sandbox.create("cli-webiste-builder") # Sync sandbox
+# sandbox = await AsyncSandbox.create("cli-webiste-builder") # Async sandbox
+
+# JS SDK
+# import { Sandbox } from 'e2b'
+# const sandbox = await Sandbox.create('cli-webiste-builder')
+
+team_id = "d361f89c-a502-4c1e-9f03-ca2add1c099b"
+start_cmd = "C:/Program Files/Git/compile_page.sh"
+dockerfile = "e2b.Dockerfile"
+template_name = "cli-webiste-builder"
+template_id = "dh2gjousvchnvryk83xs"
