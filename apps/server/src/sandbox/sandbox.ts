@@ -21,7 +21,7 @@ export abstract class SandboxInstance {
     await sandbox.setTimeout(1000 * 60 * 30);
     await sandbox.kill();
   }
-  static async getSandboxUrl(sandbox: Sandbox) {
+  static getSandboxUrl(sandbox: Sandbox) {
     const hostUrl = `https://${sandbox.getHost(3000)}`;
     return hostUrl;
   }
