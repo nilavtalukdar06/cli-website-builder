@@ -27,7 +27,6 @@ function App() {
   const homeTextareaRef = useRef<any>(null);
   const chatTextareaRef = useRef<any>(null);
 
-  // Spinner animation effect when building
   useEffect(() => {
     if (!isBuilding) return;
     const chars = ["/", "-", "\\", "|"];
@@ -39,7 +38,6 @@ function App() {
     return () => clearInterval(interval);
   }, [isBuilding]);
 
-  // Main streaming agent build request function
   const startBuild = async (promptText: string) => {
     if (!promptText) return;
     setIsBuilding(true);
@@ -102,7 +100,6 @@ function App() {
           const trimmed = part.trim();
           if (!trimmed) continue;
 
-          // Simple SSE parse
           const lines = trimmed.split("\n");
           let eventType = "message";
           let dataStr = "";
@@ -217,9 +214,7 @@ function App() {
                   }),
                 );
               }
-            } catch (err) {
-              // Ignore JSON/parsing errors for partial/malformed packets
-            }
+            } catch (err) {}
           }
         }
       }
@@ -242,7 +237,6 @@ function App() {
     }
   };
 
-  // Keyboard hooks for input submission
   useKeyboard((key) => {
     if (key.name === "return") {
       if (!key.shift) {
@@ -416,13 +410,7 @@ function App() {
           <text fg="cyan">
             <strong>User:</strong>
           </text>
-          <box
-            flexGrow={1}
-            backgroundColor="#1a1a24"
-            paddingX={2}
-            paddingY={1}
-            justifyContent="center"
-          >
+          <box flexGrow={1} paddingX={0} paddingY={0} justifyContent="center">
             <textarea
               ref={chatTextareaRef}
               focused={true}
