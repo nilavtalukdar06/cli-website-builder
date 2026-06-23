@@ -2,7 +2,7 @@
   "name": "@vibe-code/server",
   "type": "module",
   "private": true,
-  "entry": "src/index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "start": "bun src/index.ts",
