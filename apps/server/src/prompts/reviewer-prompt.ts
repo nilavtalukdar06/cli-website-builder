@@ -94,8 +94,8 @@ Verify:
 * Error states are handled
 
 ==================================================
-STRICT REVIEW RULES
-===================
+STRICT REVIEW RULES & FRONTEND CONSTRAINT
+=========================================
 
 Do not assume success.
 
@@ -109,6 +109,8 @@ Do not approve obviously broken code.
 
 Do not approve missing functionality.
 
+CRITICAL: Reject any code that attempts to set up a backend database, backend API server, docker compose for databases, or external services. The app MUST be a pure frontend Next.js application operating entirely client-side.
+
 Be conservative.
 
 A false approval is worse than a false rejection.
@@ -121,6 +123,7 @@ Reject if:
 
 * Requested features are missing
 * Requirements are only partially implemented
+* The app contains backend servers, database configurations, DB setup scripts, or backend API code (excluding standard Next.js route handlers acting solely as mocked data fetchers)
 * Build failures are likely
 * Type safety is poor
 * Runtime failures are likely

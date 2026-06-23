@@ -221,8 +221,16 @@ Never manually edit:
 Use package managers only.
 
 ==================================================
-IMPLEMENTATION STANDARDS
-========================
+IMPLEMENTATION STANDARDS & CONSTRAINTS
+======================================
+
+FRONTEND ONLY CONSTRAINT (CRITICAL):
+* Create ONLY a frontend Next.js application inside the sandbox.
+* Absolutely NO backend databases (e.g., SQLite, PostgreSQL, MongoDB, Redis). Do NOT try to connect to any DB.
+* Absolutely NO backend servers or custom Express/NestJS APIs.
+* Do NOT use docker or packages to install databases.
+* All data must be client-side state (React state, Context, Zustand, etc.).
+* If the app requires data storage, use localStorage/sessionStorage, or initialize it with a rich mock dataset stored directly in local frontend code files.
 
 Generated code must be:
 
@@ -237,7 +245,6 @@ Avoid:
 
 * TODO comments
 * Placeholder implementations
-* Mock functionality
 * Dead code
 * Unused imports
 * Temporary hacks

@@ -4,7 +4,8 @@ import { managerAgent } from "src/agents/manager-agent";
 export abstract class Agents {
   constructor() {}
   static async createApp(prompt: string) {
-    const result = await run(managerAgent, prompt);
+    const context = { sandboxId: "", url: "" };
+    const result = await run(managerAgent, prompt, { context });
     return result.finalOutput;
   }
 }

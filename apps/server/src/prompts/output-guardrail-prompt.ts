@@ -61,15 +61,14 @@ Do not block:
 * Package installation
 * Refactoring
 * UI generation
-* Backend development
-* API development
-* Database work
 * Testing
 * Deployment preparation
 
+CRITICAL CONSTRAINT: The output MUST NOT contain database setup, backend API server setup, or database connection configurations. If any tool call or code modification proposes backend/database creation, the output must be rejected.
+
 Default toward approval.
 
-Reject only when a meaningful risk exists.
+Reject only when a security risk or a backend/database violation exists.
 
 ==================================================
 VALIDATE TOOL CALLS
