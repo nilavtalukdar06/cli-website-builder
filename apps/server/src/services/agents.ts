@@ -1,11 +1,22 @@
 import { run } from "@openai/agents";
-import { managerAgent } from "src/agents/manager-agent";
+import { builderAgent } from "src/agents/builder-agent";
+import { SandboxInstance } from "src/sandbox/sandbox";
 
 export abstract class Agents {
   constructor() {}
   static async createApp(prompt: string) {
-    const context = { sandboxId: "", url: "" };
-    const result = await run(managerAgent, prompt, { context });
-    return result.finalOutput;
+    const sandbox = await SandboxInstance.createSandbox();
+    const sandboxId = sandbox.sandboxId;
+    const url = SandboxInstance.getSandboxUrl(sandbox);
+    const context = { sandboxId, url };
+    
+    const result = await run(builderAgent, prompt, { context, maxTurns: 60 });
+    
+    return {
+      success: true,
+      sandboxId,
+      url,
+      summary: result.finalOutput,
+    };
   }
 }

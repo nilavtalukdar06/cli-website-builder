@@ -10,7 +10,7 @@ import {
 
 export const builderAgent = new Agent({
   name: "builder",
-  model: "gpt-5",
+  model: "gpt-5-mini",
   instructions: builderPrompt,
   tools: [
     readFileTool,
