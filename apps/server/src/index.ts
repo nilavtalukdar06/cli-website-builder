@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { ApiResponse } from "./utils/response";
 import { corsMiddleware } from "./lib/cors";
 import { apiRateLimiter } from "./lib/rate-limit";
-import { SandboxInstance } from "./sandbox/sandbox";
+import { Agents } from "./services/agents";
 
 const app: Application = express();
 const port = env.PORT ?? 5500;
@@ -20,17 +20,17 @@ app.get("/", (_req: Request, res: Response) => {
     .json(new ApiResponse(StatusCodes.OK, true, "api is working", {}));
 });
 
-app.get("/app", async (_req: Request, res: Response) => {
-  const sandbox = await SandboxInstance.createSandbox();
-  const hostUrl = SandboxInstance.getSandboxUrl(sandbox);
+app.post("/create-app", async (req: Request, res: Response) => {
+  const { prompt } = req.body;
+  const result = await Agents.createApp(prompt);
   return res
-    .status(StatusCodes.OK)
+    .status(StatusCodes.CREATED)
     .json(
       new ApiResponse(
-        StatusCodes.OK,
+        StatusCodes.CREATED,
         true,
         "successfully spinned up a sandbox",
-        { hostUrl },
+        result,
       ),
     );
 });
