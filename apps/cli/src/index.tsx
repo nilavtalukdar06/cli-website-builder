@@ -407,10 +407,14 @@ function App() {
           maxWidth={78}
           alignSelf="flex-start"
         >
-          <text fg="cyan">
-            <strong>User:</strong>
-          </text>
-          <box flexGrow={1} paddingX={0} paddingY={0} justifyContent="center">
+          <box
+            flexGrow={1}
+            paddingX={1}
+            paddingY={1}
+            justifyContent="center"
+            backgroundColor="#1a1a24"
+            width="100%"
+          >
             <textarea
               ref={chatTextareaRef}
               focused={true}
