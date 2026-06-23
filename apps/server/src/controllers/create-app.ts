@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { Agents } from "src/services/agents";
 import { ApiError } from "src/utils/error";
-import { ApiResponse } from "src/utils/response";
 
 export const createApp = async (req: Request, res: Response) => {
   try {
@@ -15,27 +14,22 @@ export const createApp = async (req: Request, res: Response) => {
         {},
       );
     }
-    const result = await Agents.createApp(prompt);
-    return res.status(StatusCodes.CREATED).json(
-      new ApiResponse(StatusCodes.CREATED, true, "successfully created the application", result),
-    )
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.flushHeaders();
+    const result = await Agents.createApp(prompt, (event) => {
+      res.write(`data: ${JSON.stringify(event)}\n\n`);
+    });
+    res.write(`event: completed\n` + `data: ${JSON.stringify(result)}\n\n`);
+    res.end();
   } catch (error) {
-    if (error instanceof ApiError) {
-      return res
-        .status(error.statusCode)
-        .json(
-          new ApiError(error.statusCode, error.success, error.message, error),
-        );
-    }
-    return res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json(
-        new ApiError(
-          StatusCodes.INTERNAL_SERVER_ERROR,
-          false,
-          "failed to create the application",
-          error,
-        ),
-      );
+    res.write(
+      `event: error\n` +
+        `data: ${JSON.stringify({
+          message: String(error),
+        })}\n\n`,
+    );
+    res.end();
   }
 };
