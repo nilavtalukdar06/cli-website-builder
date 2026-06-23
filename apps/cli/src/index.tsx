@@ -65,7 +65,7 @@ function App() {
     ]);
 
     try {
-      const response = await fetch("http://127.0.0.1:5500/api/app/create", {
+      const response = await fetch("https://server-pwoq.onrender.com/api/app/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
