@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express, { Request, Response, type Application } from "express";
 import { env } from "./config/env";
 import { StatusCodes } from "http-status-codes";
