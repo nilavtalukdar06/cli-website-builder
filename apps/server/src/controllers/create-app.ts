@@ -5,7 +5,7 @@ import { ApiError } from "src/utils/error";
 
 export const createApp = async (req: Request, res: Response) => {
   try {
-    const { prompt } = req.body;
+    const { prompt, sessionId } = req.body;
     if (!prompt) {
       throw new ApiError(
         StatusCodes.BAD_REQUEST,
@@ -18,9 +18,13 @@ export const createApp = async (req: Request, res: Response) => {
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
     res.flushHeaders();
-    const result = await Agents.createApp(prompt, (event) => {
-      res.write(`data: ${JSON.stringify(event)}\n\n`);
-    });
+    const result = await Agents.createApp(
+      prompt,
+      sessionId ?? undefined,
+      (event) => {
+        res.write(`data: ${JSON.stringify(event)}\n\n`);
+      },
+    );
     res.write(`event: completed\n` + `data: ${JSON.stringify(result)}\n\n`);
     res.end();
   } catch (error) {
