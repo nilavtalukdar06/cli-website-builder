@@ -2,10 +2,11 @@
   "name": "@vibe-code/server",
   "type": "module",
   "private": true,
+  "entry": "src/index.ts",
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "start": "bun src/index.ts",
-    "build": "bun build src/index.ts --outdir src/. --target bun"
+    "build": "bun build src/index.ts --outdir dist --target bun"
   },
   "devDependencies": {
     "@types/bun": "latest",
