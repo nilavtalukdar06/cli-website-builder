@@ -8,4 +8,7 @@ export default defineConfig({
   splitting: false,
   dts: false,
   external: [],
+  banner: {
+    js: "#!/usr/bin/env bun",
+  },
 });
