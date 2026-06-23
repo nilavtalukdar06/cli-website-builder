@@ -1,6 +1,17 @@
+import type { RefObject } from "react";
 import { StatusBar } from "./status-bar";
 
-export function InputBar() {
+interface InputBarProps {
+  textareaRef?: RefObject<any>;
+  focused?: boolean;
+  placeholder?: string;
+}
+
+export function InputBar({
+  textareaRef,
+  focused,
+  placeholder = "What do you want to build today",
+}: InputBarProps) {
   return (
     <box width="100%" alignItems="center">
       <box width="100%" border={["left"]} borderColor="cyan">
@@ -13,7 +24,11 @@ export function InputBar() {
           width="100%"
           gap={1}
         >
-          <textarea placeholder="What do you want to build today" />
+          <textarea
+            ref={textareaRef}
+            focused={focused}
+            placeholder={placeholder}
+          />
           <StatusBar />
         </box>
       </box>
