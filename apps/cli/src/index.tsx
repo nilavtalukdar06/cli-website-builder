@@ -281,7 +281,7 @@ function App() {
   return (
     <box
       flexDirection="column"
-      width={width}
+      width="100%"
       height={height}
       gap={1}
       paddingX={2}
@@ -322,13 +322,13 @@ function App() {
                   <text fg="white">{msg.text}</text>
                 </box>
               ) : (
-                <box flexDirection="column" gap={0.5} width="100%">
+                <box flexDirection="column" width="100%">
                   <text fg="green">
                     <strong>Agent:</strong>
                   </text>
 
                   {msg.status === "running" && (
-                    <box flexDirection="row" gap={1} alignItems="center">
+                    <box flexDirection="row" gap={2} alignItems="center">
                       <text fg="white">{spinnerChar}</text>
                       <text fg="white">
                         {msg.currentStatus || "Thinking..."}
@@ -336,7 +336,7 @@ function App() {
                     </box>
                   )}
 
-                  <box flexDirection="column" gap={0} paddingLeft={2}>
+                  <box flexDirection="column" gap={1} paddingLeft={2}>
                     {msg.updates.map((update, uIdx) => (
                       <text key={uIdx} fg="white">
                         › {update}
@@ -380,7 +380,8 @@ function App() {
                       border={["left"]}
                       borderColor="red"
                       paddingX={2}
-                      paddingY={0.5}
+                      paddingY={1}
+                      gap={1}
                       backgroundColor="#221111"
                       marginTop={1}
                       width="100%"
@@ -404,13 +405,14 @@ function App() {
           gap={1}
           alignItems="center"
           width="100%"
-          maxWidth={78}
+          maxWidth={!isBuilding ? "100%" : 78}
           alignSelf="flex-start"
         >
           <box
             flexGrow={1}
             paddingX={1}
             paddingY={1}
+            marginBottom={1}
             justifyContent="center"
             backgroundColor="#1a1a24"
             width="100%"
