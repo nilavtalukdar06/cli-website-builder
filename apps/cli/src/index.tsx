@@ -289,7 +289,6 @@ function App() {
       backgroundColor="#0D0D12"
     >
       <Header />
-      <box height={1} border={["bottom"]} borderColor="gray" width="100%" />
 
       <scrollbox
         flexGrow={1}
