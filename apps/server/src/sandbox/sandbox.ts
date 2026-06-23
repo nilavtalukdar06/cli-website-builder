@@ -1,4 +1,4 @@
-import Sandbox from "@e2b/code-interpreter";
+import { Sandbox } from "@e2b/code-interpreter";
 import { env } from "src/config/env";
 
 const TEMPLATE_ID = env.E2B_TEMPLATE_ID;
