@@ -56,7 +56,7 @@ export async function jwtAuth(req: Request, res: Response, next: NextFunction) {
           new ApiError(
             StatusCodes.PAYMENT_REQUIRED,
             false,
-            "you have exhausted your credits, please switch to pro plan for unlimited credits",
+            "You have exhausted your credits, please switch to pro plan for unlimited credits",
             {},
           ),
         );

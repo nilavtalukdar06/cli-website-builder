@@ -80,6 +80,18 @@ function App() {
       });
 
       if (!response.ok) {
+        if (response.status === 402) {
+          let errorMessage = "You have exhausted your credits, please switch to pro plan for unlimited credits";
+          try {
+            const errorData = (await response.json()) as any;
+            if (errorData && errorData.message) {
+              errorMessage = errorData.message;
+            }
+          } catch (_) {
+            // Keep default fallback message
+          }
+          throw new Error(errorMessage);
+        }
         throw new Error(`Server returned HTTP ${response.status}`);
       }
 
