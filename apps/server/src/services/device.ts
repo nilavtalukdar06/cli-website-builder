@@ -1,7 +1,9 @@
 import { StatusCodes } from "http-status-codes";
+import { CliRepository } from "src/repositories/cli";
 import { DeviceRepository } from "src/repositories/device";
 import { DeviceCode } from "src/utils/device-code";
 import { ApiError } from "src/utils/error";
+import { generateRefreshToken } from "src/utils/token";
 
 export abstract class DeviceService {
   constructor() {}
@@ -75,12 +77,12 @@ export abstract class DeviceService {
         {},
       );
     }
+    const refreshToken = generateRefreshToken();
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    await CliRepository.create(refreshToken, device.userId!, expiresAt);
     return {
       authorized: true,
-      user: {
-        id: device.user.id,
-        email: device.user.email,
-      },
+      refreshToken,
     };
   }
 }
