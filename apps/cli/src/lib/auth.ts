@@ -1,18 +1,32 @@
 import fs from "fs/promises";
 import path from "path";
 import os from "os";
+import { exec } from "child_process";
 
 const API_URL = process.env.API_URL || "http://localhost:5500";
 
 const AUTH_DIR = path.join(os.homedir(), ".vibecode");
 const AUTH_FILE = path.join(AUTH_DIR, "auth.json");
 
+function openUrl(url: string): void {
+  const platform = process.platform;
+  let cmd = "";
+  if (platform === "win32") {
+    cmd = `start "" "${url}"`;
+  } else if (platform === "darwin") {
+    cmd = `open "${url}"`;
+  } else {
+    cmd = `xdg-open "${url}"`;
+  }
+  exec(cmd, () => {});
+}
+
 export async function saveRefreshToken(refreshToken: string): Promise<void> {
   await fs.mkdir(AUTH_DIR, { recursive: true });
   await fs.writeFile(
     AUTH_FILE,
     JSON.stringify({ refreshToken }, null, 2),
-    "utf-8"
+    "utf-8",
   );
 }
 
@@ -34,7 +48,9 @@ export async function clearRefreshToken(): Promise<void> {
   }
 }
 
-export async function refreshAccessToken(refreshToken: string): Promise<string> {
+export async function refreshAccessToken(
+  refreshToken: string,
+): Promise<string> {
   const response = await fetch(`${API_URL}/api/auth/cli/refresh`, {
     method: "POST",
     headers: {
@@ -46,7 +62,9 @@ export async function refreshAccessToken(refreshToken: string): Promise<string> 
   const body = (await response.json()) as any;
 
   if (!response.ok) {
-    throw new Error(body.message || `Failed to refresh token: HTTP ${response.status}`);
+    throw new Error(
+      body.message || `Failed to refresh token: HTTP ${response.status}`,
+    );
   }
 
   if (!body.accessToken) {
@@ -68,19 +86,25 @@ export async function deviceLogin(): Promise<string> {
   const body = (await response.json()) as any;
 
   if (!response.ok || !body.success || !body.data) {
-    throw new Error(body.message || `Failed to start device flow: HTTP ${response.status}`);
+    throw new Error(
+      body.message || `Failed to start device flow: HTTP ${response.status}`,
+    );
   }
 
   const { deviceCode, userCode, verificationUrl } = body.data;
 
-  // Step 2: Display verification instructions
+  // Step 2: Display verification instructions & auto-open url
+  const urlWithCode = `${verificationUrl}?code=${userCode}`;
+
   console.log("\n================================\n");
   console.log("Open:\n");
-  console.log(verificationUrl);
+  console.log(urlWithCode);
   console.log("\nCode:\n");
   console.log(userCode);
   console.log("\nWaiting for authorization...\n");
   console.log("================================\n");
+
+  openUrl(urlWithCode);
 
   // Step 3 & 4: Poll status
   while (true) {
@@ -104,11 +128,16 @@ export async function deviceLogin(): Promise<string> {
       }
 
       if (!pollResponse.ok) {
-        if (pollResponse.status === 401 && pollBody.message === "device is not authorized") {
+        if (
+          pollResponse.status === 401 &&
+          pollBody.message === "device is not authorized"
+        ) {
           // Device is still waiting for authorization, continue polling
           continue;
         }
-        throw new Error(pollBody.message || `Polling error: HTTP ${pollResponse.status}`);
+        throw new Error(
+          pollBody.message || `Polling error: HTTP ${pollResponse.status}`,
+        );
       }
     } catch (err: any) {
       if (err.message === "device is not authorized") {
