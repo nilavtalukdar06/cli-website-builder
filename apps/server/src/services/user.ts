@@ -2,6 +2,8 @@ import { StatusCodes } from "http-status-codes";
 import { UserRepository } from "src/repositories/user";
 import { ApiError } from "src/utils/error";
 import bcrypt from "bcryptjs";
+import { generateAccessToken } from "src/lib/jwt";
+import { CliRepository } from "src/repositories/cli";
 
 export abstract class UserService {
   constructor() {}
@@ -26,5 +28,32 @@ export abstract class UserService {
       throw new ApiError(StatusCodes.NOT_FOUND, false, "user not found", {});
     }
     return user;
+  }
+  static async refreshCliToken(refreshToken: string) {
+    const token = await CliRepository.findByRefreshToken(refreshToken);
+    if (!token) {
+      throw new ApiError(
+        StatusCodes.NOT_FOUND,
+        false,
+        "invalid refresh token",
+        {},
+      );
+    }
+    if (token.expiresAt.getTime() < Date.now()) {
+      throw new ApiError(
+        StatusCodes.UNAUTHORIZED,
+        false,
+        "refresh token expired",
+        {},
+      );
+    }
+    const accessToken = generateAccessToken(token.userId);
+    return {
+      accessToken,
+      user: {
+        id: token.user.id,
+        email: token.user.email,
+      },
+    };
   }
 }

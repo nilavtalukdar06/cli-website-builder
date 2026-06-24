@@ -1,6 +1,6 @@
 import express, { type Router } from "express";
 import { getMe, login, logout } from "src/controllers/session";
-import { signUp } from "src/controllers/user";
+import { refreshCliToken, signUp } from "src/controllers/user";
 import { authenticate } from "src/middlewares/auth";
 import { validate } from "src/middlewares/validation";
 import { sessionSchema } from "src/validators/session";
@@ -13,6 +13,8 @@ router.post("/sign-up", validate(signUpSchema), signUp);
 router.post("/login", validate(sessionSchema), login);
 
 router.get("/me", authenticate, getMe);
+
+router.post("/cli/refresh", refreshCliToken);
 
 router.post("/logout", logout);
 
