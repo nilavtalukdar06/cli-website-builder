@@ -34,3 +34,38 @@ export const deviceController = async (_req: Request, res: Response) => {
     }
   }
 };
+
+export const poll = async (req: Request, res: Response) => {
+  try {
+    const { deviceCode } = req.body;
+    if (!deviceCode) {
+      throw new ApiError(
+        StatusCodes.BAD_REQUEST,
+        false,
+        "device code is not present",
+        {},
+      );
+    }
+    const result = await DeviceService.poll(deviceCode);
+    return res
+      .status(StatusCodes.OK)
+      .json(
+        new ApiResponse(StatusCodes.OK, true, "device is authorized", result),
+      );
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    } else {
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json(
+          new ApiError(
+            StatusCodes.INTERNAL_SERVER_ERROR,
+            false,
+            "failed to poll the database",
+            error,
+          ),
+        );
+    }
+  }
+};

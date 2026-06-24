@@ -12,4 +12,18 @@ export abstract class DeviceRepository {
     });
     return device;
   }
+  static async findDeviceByCode(deviceCode: string) {
+    const device = prisma.deviceAuth.findUnique({
+      where: { deviceCode },
+      include: {
+        user: {
+          select: {
+            id: true,
+            email: true,
+          },
+        },
+      },
+    });
+    return device;
+  }
 }

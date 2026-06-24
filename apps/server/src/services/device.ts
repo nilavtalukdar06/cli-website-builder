@@ -1,5 +1,7 @@
+import { StatusCodes } from "http-status-codes";
 import { DeviceRepository } from "src/repositories/device";
 import { DeviceCode } from "src/utils/device-code";
+import { ApiError } from "src/utils/error";
 
 export abstract class DeviceService {
   constructor() {}
@@ -13,6 +15,43 @@ export abstract class DeviceService {
       userCode,
       expiresAt,
       verificationUrl: "http://localhost:3000/device",
+    };
+  }
+  static async poll(deviceCode: string) {
+    const device = await DeviceRepository.findDeviceByCode(deviceCode);
+    if (!device) {
+      throw new ApiError(StatusCodes.NOT_FOUND, false, "device not found", {});
+    }
+    if (device.expiresAt.getTime() < Date.now()) {
+      throw new ApiError(
+        StatusCodes.UNAUTHORIZED,
+        false,
+        "device code has expired",
+        {},
+      );
+    }
+    if (!device.authorized) {
+      throw new ApiError(
+        StatusCodes.UNAUTHORIZED,
+        false,
+        "device is not authorized",
+        {},
+      );
+    }
+    if (!device.user) {
+      throw new ApiError(
+        StatusCodes.UNAUTHORIZED,
+        false,
+        "no user associated with this authorized device",
+        {},
+      );
+    }
+    return {
+      authorized: true,
+      user: {
+        id: device.user.id,
+        email: device.user.email,
+      },
     };
   }
 }
