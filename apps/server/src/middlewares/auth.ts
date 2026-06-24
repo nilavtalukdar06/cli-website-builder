@@ -15,7 +15,7 @@ export async function authenticate(
       .json(
         new ApiError(
           StatusCodes.UNAUTHORIZED,
-          true,
+          false,
           "session id is missing",
           {},
         ),
@@ -26,14 +26,14 @@ export async function authenticate(
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .json(
-        new ApiError(StatusCodes.UNAUTHORIZED, true, "session is missing", {}),
+        new ApiError(StatusCodes.UNAUTHORIZED, false, "session is missing", {}),
       );
   }
   if (session.expiresAt.getTime() < Date.now()) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .json(
-        new ApiError(StatusCodes.UNAUTHORIZED, true, "session expired", {}),
+        new ApiError(StatusCodes.UNAUTHORIZED, false, "session expired", {}),
       );
   }
   req.auth = {
