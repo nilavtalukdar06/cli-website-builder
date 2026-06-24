@@ -8,6 +8,7 @@ import { corsMiddleware } from "./lib/cors";
 import { apiRateLimiter } from "./lib/rate-limit";
 import AppRoutes from "./routes/create-app";
 import UserRoutes from "./routes/user";
+import DeviceRoutes from "./routes/device";
 
 const app: Application = express();
 const port = env.PORT ?? 5500;
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/auth", UserRoutes);
+app.use("/api/device", DeviceRoutes);
 app.use("/api/app", AppRoutes);
 
 app.get("/", (_req: Request, res: Response) => {
