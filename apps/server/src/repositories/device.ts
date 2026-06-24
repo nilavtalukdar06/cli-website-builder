@@ -26,4 +26,22 @@ export abstract class DeviceRepository {
     });
     return device;
   }
+  static async findDeviceByUserCode(userCode: string) {
+    const device = prisma.deviceAuth.findUnique({
+      where: { userCode },
+    });
+    return device;
+  }
+  static async authorize(deviceId: string, userId: string) {
+    const device = await prisma.deviceAuth.update({
+      where: {
+        id: deviceId,
+      },
+      data: {
+        authorized: true,
+        userId,
+      },
+    });
+    return device;
+  }
 }

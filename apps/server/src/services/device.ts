@@ -17,6 +17,35 @@ export abstract class DeviceService {
       verificationUrl: "http://localhost:3000/device",
     };
   }
+  static async authorize(userCode: string, userId: string) {
+    const device = await DeviceRepository.findDeviceByUserCode(userCode);
+    if (!device) {
+      throw new ApiError(
+        StatusCodes.NOT_FOUND,
+        false,
+        "invalid device code",
+        {},
+      );
+    }
+    if (device.expiresAt.getTime() < Date.now()) {
+      throw new ApiError(
+        StatusCodes.UNAUTHORIZED,
+        false,
+        "device code expired",
+        {},
+      );
+    }
+    if (device.authorized) {
+      throw new ApiError(
+        StatusCodes.BAD_REQUEST,
+        false,
+        "device is authorized",
+        {},
+      );
+    }
+    const result = await DeviceRepository.authorize(device.id, userId);
+    return result;
+  }
   static async poll(deviceCode: string) {
     const device = await DeviceRepository.findDeviceByCode(deviceCode);
     if (!device) {
