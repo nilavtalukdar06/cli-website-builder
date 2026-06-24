@@ -24,4 +24,20 @@ export abstract class UserRepository {
     });
     return user;
   }
+  static async incrementGenerationCount(userId: string) {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        generationsUsed: {
+          increment: 1,
+        },
+      },
+    });
+    return {
+      id: user.id,
+      email: user.email,
+      plan: user.plan,
+      generationsUsed: user.generationsUsed,
+    };
+  }
 }
