@@ -69,3 +69,36 @@ export const getMe = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const logout = async (req: Request, res: Response) => {
+  try {
+    const sessionId = req.cookies.session_id;
+    const session = await SessionService.logout(sessionId);
+    res.clearCookie("session_id");
+    return res
+      .status(StatusCodes.OK)
+      .json(
+        new ApiResponse(
+          StatusCodes.OK,
+          true,
+          "logged out successfully",
+          session,
+        ),
+      );
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    } else {
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json(
+          new ApiError(
+            StatusCodes.INTERNAL_SERVER_ERROR,
+            false,
+            "failed to logout user",
+            error,
+          ),
+        );
+    }
+  }
+};

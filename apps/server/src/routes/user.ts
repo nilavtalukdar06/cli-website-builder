@@ -1,5 +1,5 @@
 import express, { type Router } from "express";
-import { getMe, login } from "src/controllers/session";
+import { getMe, login, logout } from "src/controllers/session";
 import { signUp } from "src/controllers/user";
 import { authenticate } from "src/middlewares/auth";
 import { validate } from "src/middlewares/validation";
@@ -13,5 +13,7 @@ router.post("/sign-up", validate(signUpSchema), signUp);
 router.post("/login", validate(sessionSchema), login);
 
 router.get("/me", authenticate, getMe);
+
+router.get("/logout", logout);
 
 export default router;

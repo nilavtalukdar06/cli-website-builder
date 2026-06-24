@@ -34,4 +34,8 @@ export abstract class SessionService {
       session,
     };
   }
+  static async logout(sessionId: string) {
+    const session = await SessionRepository.deleteSession(sessionId);
+    return session;
+  }
 }
