@@ -44,4 +44,13 @@ export abstract class DeviceRepository {
     });
     return device;
   }
+  static async consume(id: string) {
+    const cli = await prisma.deviceAuth.update({
+      where: { id },
+      data: {
+        consumed: true,
+      },
+    });
+    return cli;
+  }
 }

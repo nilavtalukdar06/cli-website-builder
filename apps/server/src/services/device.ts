@@ -77,8 +77,17 @@ export abstract class DeviceService {
         {},
       );
     }
+    if (device.consumed) {
+      throw new ApiError(
+        StatusCodes.UNAUTHORIZED,
+        false,
+        "token already consumed",
+        {},
+      );
+    }
     const refreshToken = generateRefreshToken();
     const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    await DeviceRepository.consume(device.id);
     await CliRepository.create(refreshToken, device.userId!, expiresAt);
     return {
       authorized: true,
