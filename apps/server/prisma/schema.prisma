@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  password  String
-  sessions  Session[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String       @id @default(uuid())
+  email       String       @unique
+  password    String
+  sessions    Session[]
+  deviceAuths DeviceAuth[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model Session {
@@ -23,6 +24,20 @@ model Session {
   expiresAt DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model DeviceAuth {
+  id         String   @id @default(uuid())
+  deviceCode String   @unique
+  userCode   String   @unique
+  authorized Boolean  @default(false)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([userId])
 }
