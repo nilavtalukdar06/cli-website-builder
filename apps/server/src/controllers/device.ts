@@ -48,10 +48,10 @@ export const authorize = async (req: Request, res: Response) => {
     }
     const result = await DeviceService.authorize(userCode, req.auth!.userId);
     return res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .status(StatusCodes.OK)
       .json(
         new ApiResponse(
-          StatusCodes.INTERNAL_SERVER_ERROR,
+          StatusCodes.OK,
           true,
           "device authorized successfully",
           result,

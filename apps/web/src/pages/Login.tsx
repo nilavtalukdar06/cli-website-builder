@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { loginSchema, type LoginCredentials } from "../types/auth";
 import { useAuth } from "../hooks/useAuth";
 import { getErrorMessage } from "../utils/errors";
@@ -26,6 +26,8 @@ import {
 
 export default function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/dashboard";
   const { login, refreshSession } = useAuth();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -44,7 +46,7 @@ export default function Login() {
     try {
       await login(values);
       await refreshSession();
-      navigate("/dashboard");
+      navigate(redirect);
     } catch (err) {
       setErrorMsg(getErrorMessage(err));
     } finally {

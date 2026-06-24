@@ -4,6 +4,7 @@ import { createCliRenderer } from "@opentui/core";
 import { createRoot, useKeyboard, useTerminalDimensions } from "@opentui/react";
 import Header from "./components/header";
 import { InputBar } from "./components/input-bar";
+import { bootstrap } from "./bootstrap";
 
 interface Message {
   id: string;
@@ -65,10 +66,12 @@ function App() {
     ]);
 
     try {
-      const response = await fetch("http://localhost:5500/api/app/create", {
+      const API_URL = process.env.API_URL || "http://localhost:5500";
+      const response = await fetch(`${API_URL}/api/app/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${globalThis.ACCESS_TOKEN}`,
         },
         body: JSON.stringify({
           prompt: promptText,
@@ -427,6 +430,9 @@ function App() {
     </box>
   );
 }
+
+const auth = await bootstrap();
+globalThis.ACCESS_TOKEN = auth.accessToken;
 
 const renderer = await createCliRenderer();
 createRoot(renderer).render(<App />);

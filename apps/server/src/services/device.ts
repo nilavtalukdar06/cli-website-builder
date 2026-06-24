@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import { env } from "src/config/env";
 import { CliRepository } from "src/repositories/cli";
 import { DeviceRepository } from "src/repositories/device";
 import { DeviceCode } from "src/utils/device-code";
@@ -16,7 +17,7 @@ export abstract class DeviceService {
       deviceCode,
       userCode,
       expiresAt,
-      verificationUrl: "http://localhost:3000/device",
+      verificationUrl: env.VERIFICATION_URL ?? "http://localhost:3000/device",
     };
   }
   static async authorize(userCode: string, userId: string) {

@@ -7,4 +7,5 @@ export const env = {
   JWT_SECRET: process.env.JWT_SECRET,
   CORS_ORIGIN:
     process.env.CORS_ORIGIN ?? "http://localhost:3000,http://localhost:8081",
+  VERIFICATION_URL: process.env.VERIFICATION_URL,
 };

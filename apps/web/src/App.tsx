@@ -6,6 +6,7 @@ import { GuestRoute } from "./routes/GuestRoute";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import DeviceAuth from "./pages/DeviceAuth";
 import { useAuth } from "./hooks/useAuth";
 
 const queryClient = new QueryClient({
@@ -65,6 +66,14 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/device"
+              element={
+                <ProtectedRoute>
+                  <DeviceAuth />
                 </ProtectedRoute>
               }
             />
