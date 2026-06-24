@@ -7,9 +7,6 @@ import { ApiResponse } from "src/utils/response";
 export const signUp = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    if (!email || !password) {
-      throw new ApiError(StatusCodes.BAD_REQUEST, false, "invalid fields", {});
-    }
     const user = await UserService.signUp(email, password);
     return res
       .status(StatusCodes.CREATED)
