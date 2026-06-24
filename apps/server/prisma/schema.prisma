@@ -13,6 +13,7 @@ model User {
   password    String
   sessions    Session[]
   deviceAuths DeviceAuth[]
+  cliAuths    CliAuth[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 }
@@ -38,4 +39,16 @@ model DeviceAuth {
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model CliAuth {
+  id           String   @id @default(uuid())
+  refreshToken String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
 }
