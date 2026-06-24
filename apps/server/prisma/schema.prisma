@@ -33,11 +33,9 @@ model DeviceAuth {
   deviceCode String   @unique
   userCode   String   @unique
   authorized Boolean  @default(false)
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt  DateTime
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
-  @@index([userId])
 }
