@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { SessionService } from "src/services/session";
+import { UserService } from "src/services/user";
 import { ApiError } from "src/utils/error";
 import { ApiResponse } from "src/utils/response";
 
@@ -42,13 +43,14 @@ export const login = async (req: Request, res: Response) => {
 
 export const getMe = async (req: Request, res: Response) => {
   try {
+    const user = await UserService.findById(req.auth!.userId);
     return res.status(StatusCodes.OK).json(
       new ApiResponse(
         StatusCodes.OK,
         true,
         "succesfully fetched user session",
         {
-          user: req.user,
+          user,
         },
       ),
     );
@@ -78,12 +80,7 @@ export const logout = async (req: Request, res: Response) => {
     return res
       .status(StatusCodes.OK)
       .json(
-        new ApiResponse(
-          StatusCodes.OK,
-          true,
-          "logged out successfully",
-          {},
-        ),
+        new ApiResponse(StatusCodes.OK, true, "logged out successfully", {}),
       );
   } catch (error) {
     if (error instanceof ApiError) {

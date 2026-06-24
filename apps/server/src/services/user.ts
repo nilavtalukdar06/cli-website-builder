@@ -20,4 +20,11 @@ export abstract class UserService {
     const user = await UserRepository.createUser(email, hashedPassword);
     return user;
   }
+  static async findById(id: string) {
+    const user = await UserRepository.findById(id);
+    if (!user) {
+      throw new ApiError(StatusCodes.NOT_FOUND, false, "user not found", {});
+    }
+    return user;
+  }
 }

@@ -17,4 +17,11 @@ export abstract class UserRepository {
       email: user.email,
     };
   }
+  static async findById(id: string) {
+    const user = await prisma.user.findUnique({
+      where: { id },
+      select: { id: true, email: true },
+    });
+    return user;
+  }
 }
