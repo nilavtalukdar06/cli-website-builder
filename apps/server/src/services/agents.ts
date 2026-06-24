@@ -3,6 +3,7 @@ import { builderAgent } from "src/agents/builder-agent";
 import { SandboxInstance } from "src/sandbox/sandbox";
 import { parseAgentStream } from "src/utils/agent-stream-handler";
 import crypto from "crypto";
+import { UserRepository } from "src/repositories/user";
 
 type BuilderSession = {
   sandboxId: string;
@@ -17,6 +18,7 @@ export abstract class Agents {
   constructor() {}
 
   static async createApp(
+    userId: string,
     prompt: string,
     sessionId: string | undefined,
     onEvent: (event: any) => void,
@@ -86,7 +88,7 @@ export abstract class Agents {
     });
 
     const stats = await parseAgentStream(stream, onEvent);
-
+    await UserRepository.incrementGenerationCount(userId);
     return {
       success: true,
       sessionId: currentSessionId,

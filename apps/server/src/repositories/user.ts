@@ -20,7 +20,7 @@ export abstract class UserRepository {
   static async findById(id: string) {
     const user = await prisma.user.findUnique({
       where: { id },
-      select: { id: true, email: true },
+      select: { id: true, email: true, plan: true, generationsUsed: true },
     });
     return user;
   }
