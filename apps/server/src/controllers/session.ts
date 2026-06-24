@@ -73,7 +73,7 @@ export const getMe = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
   try {
     const sessionId = req.cookies.session_id;
-    const session = await SessionService.logout(sessionId);
+    await SessionService.logout(sessionId);
     res.clearCookie("session_id");
     return res
       .status(StatusCodes.OK)
@@ -82,7 +82,7 @@ export const logout = async (req: Request, res: Response) => {
           StatusCodes.OK,
           true,
           "logged out successfully",
-          session,
+          {},
         ),
       );
   } catch (error) {

@@ -36,6 +36,9 @@ export async function authenticate(
         new ApiError(StatusCodes.UNAUTHORIZED, true, "session expired", {}),
       );
   }
-  req.user = session.user;
+  req.auth = {
+    userId: session.user.id,
+    sessionId: session.id,
+  };
   next();
 }

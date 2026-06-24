@@ -16,7 +16,11 @@ export abstract class SessionRepository {
       where: {
         id,
       },
-      include: { user: true },
+      include: {
+        user: {
+          select: { id: true, email: true },
+        },
+      },
     });
     return session;
   }
