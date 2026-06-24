@@ -39,3 +39,33 @@ export const login = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const getMe = async (req: Request, res: Response) => {
+  try {
+    return res.status(StatusCodes.OK).json(
+      new ApiResponse(
+        StatusCodes.OK,
+        true,
+        "succesfully fetched user session",
+        {
+          user: req.user,
+        },
+      ),
+    );
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json(error);
+    } else {
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json(
+          new ApiError(
+            StatusCodes.INTERNAL_SERVER_ERROR,
+            false,
+            "failed to get user session",
+            error,
+          ),
+        );
+    }
+  }
+};
