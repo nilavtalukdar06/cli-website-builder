@@ -6,7 +6,7 @@ declare global {
       user?: User;
       auth?: {
         userId: string;
-        sessionId: string;
+        sessionId?: string;
       };
     }
   }
