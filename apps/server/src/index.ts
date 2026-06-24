@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express, { Request, Response, type Application } from "express";
+import cookieParser from "cookie-parser";
 import { env } from "./config/env";
 import { StatusCodes } from "http-status-codes";
 import { ApiResponse } from "./utils/response";
@@ -14,6 +15,7 @@ app.use(corsMiddleware);
 app.use(apiRateLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use("/api/app", AppRoutes);
 
