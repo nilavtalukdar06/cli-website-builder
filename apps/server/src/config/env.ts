@@ -8,4 +8,7 @@ export const env = {
   CORS_ORIGIN:
     process.env.CORS_ORIGIN ?? "http://localhost:3000,http://localhost:8081",
   VERIFICATION_URL: process.env.VERIFICATION_URL,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  STRIPE_PRICE_ID: process.env.STRIPE_PRICE_ID,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
 };
