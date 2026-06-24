@@ -14,6 +14,6 @@ router.post("/login", validate(sessionSchema), login);
 
 router.get("/me", authenticate, getMe);
 
-router.get("/logout", logout);
+router.post("/logout", logout);
 
 export default router;
