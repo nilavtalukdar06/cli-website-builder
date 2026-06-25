@@ -19,7 +19,6 @@ import {
   Layers3,
 } from "lucide-react";
 
-// Package Manager commands
 const INSTALL_COMMANDS = {
   npm: "npm install -g @vibe-code/cli",
   bun: "bun add -g @vibe-code/cli",
@@ -194,10 +193,10 @@ export default function Home() {
   return (
     <div className="dark bg-[#030014] text-slate-100 min-h-screen font-sans antialiased overflow-x-hidden selection:bg-violet-500/30 selection:text-violet-200">
       {/* Background Glow effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none -z-10 overflow-hidden">
-        <div className="absolute top-[-10%] left-[10%] w-[500px] h-[500px] rounded-full bg-violet-600/10 blur-[120px]" />
-        <div className="absolute top-[20%] right-[5%] w-[450px] h-[450px] rounded-full bg-fuchsia-600/10 blur-[130px]" />
-        <div className="absolute top-[40%] left-[20%] w-[600px] h-[600px] rounded-full bg-indigo-600/5 blur-[150px]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-150 pointer-events-none -z-10 overflow-hidden">
+        <div className="absolute top-[-10%] left-[10%] w-125 h-125 rounded-full bg-violet-600/10 blur-[120px]" />
+        <div className="absolute top-[20%] right-[5%] w-112.5 h-112.5 rounded-full bg-fuchsia-600/10 blur-[130px]" />
+        <div className="absolute top-[40%] left-[20%] w-150 h-150 rounded-full bg-indigo-600/5 blur-[150px]" />
       </div>
 
       {/* Header */}
@@ -205,12 +204,12 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative group">
-              <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 opacity-75 blur group-hover:opacity-100 transition duration-300" />
+              <div className="absolute -inset-0.5 rounded-lg bg-linear-to-r from-violet-600 to-fuchsia-600 opacity-75 blur group-hover:opacity-100 transition duration-300" />
               <div className="relative bg-[#090714] p-1.5 rounded-lg border border-white/10 flex items-center justify-center">
                 <Terminal className="h-5 w-5 text-violet-400" />
               </div>
             </div>
-            <span className="text-xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-violet-300">
+            <span className="text-xl font-bold tracking-wider bg-clip-text text-transparent bg-linear-to-r from-white via-slate-100 to-violet-300">
               VIBE CODE
             </span>
           </div>
@@ -240,7 +239,7 @@ export default function Home() {
             {user ? (
               <Button
                 onClick={() => navigate("/dashboard")}
-                className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-indigo-500/20 border border-violet-500/30 transition-all duration-300 px-5 rounded-lg text-sm"
+                className="bg-linear-to-r from-violet-600 to-indigo-600 text-white font-medium hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-indigo-500/20 border border-violet-500/30 transition-all duration-300 px-5 rounded-lg text-sm"
               >
                 Go to Dashboard
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -255,7 +254,7 @@ export default function Home() {
                 </Link>
                 <Button
                   onClick={() => navigate("/signup")}
-                  className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-indigo-500/20 border border-violet-500/30 transition-all duration-300 px-5 rounded-lg text-sm"
+                  className="bg-linear-to-r from-violet-600 to-indigo-600 text-white font-medium hover:from-violet-500 hover:to-indigo-500 shadow-lg shadow-indigo-500/20 border border-violet-500/30 transition-all duration-300 px-5 rounded-lg text-sm"
                 >
                   Sign Up
                 </Button>
@@ -278,7 +277,7 @@ export default function Home() {
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
               Build Web Apps
               <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-400 drop-shadow-md">
+              <span className="bg-clip-text text-transparent bg-linear-to-r from-violet-400 via-fuchsia-400 to-indigo-400 drop-shadow-md">
                 At the Speed of Vibe.
               </span>
             </h1>
@@ -291,7 +290,7 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <a href="#documentation">
-                <Button className="w-full sm:w-auto bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold hover:from-violet-500 hover:to-indigo-500 shadow-xl shadow-violet-600/20 border border-violet-500/40 px-8 py-6 text-base rounded-xl transition-all duration-300">
+                <Button className="w-full sm:w-auto bg-linear-to-r from-violet-600 to-indigo-600 text-white font-semibold hover:from-violet-500 hover:to-indigo-500 shadow-xl shadow-violet-600/20 border border-violet-500/40 px-8 py-6 text-base rounded-xl transition-all duration-300">
                   <BookOpen className="mr-2.5 h-5 w-5 text-violet-200" />
                   Read Documentation
                 </Button>
@@ -323,10 +322,10 @@ export default function Home() {
           <div className="lg:col-span-6 w-full max-w-xl mx-auto lg:max-w-none">
             <div className="relative group">
               {/* Outer Glow wrapper */}
-              <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 opacity-20 blur-xl group-hover:opacity-30 transition duration-1000" />
+              <div className="absolute -inset-1.5 rounded-2xl bg-linear-to-r from-violet-600 to-fuchsia-600 opacity-20 blur-xl group-hover:opacity-30 transition duration-1000" />
 
               {/* Terminal Box */}
-              <div className="relative rounded-xl border border-white/10 bg-[#070512] shadow-2xl overflow-hidden font-mono text-xs sm:text-sm text-slate-300 flex flex-col h-[380px] sm:h-[420px]">
+              <div className="relative rounded-xl border border-white/10 bg-[#070512] shadow-2xl overflow-hidden font-mono text-xs sm:text-sm text-slate-300 flex flex-col h-95 sm:h-105">
                 {/* Terminal Header */}
                 <div className="flex items-center justify-between px-4 py-3 bg-[#0B0A1A] border-b border-white/5 select-none">
                   <div className="flex items-center gap-2">
@@ -547,7 +546,7 @@ export default function Home() {
                     onClick={() => setActiveDocTab(tab.id as any)}
                     className={`flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-lg text-left whitespace-nowrap transition-all shrink-0 cursor-pointer ${
                       active
-                        ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-600/10 border border-violet-500/30"
+                        ? "bg-linear-to-r from-violet-600 to-indigo-600 text-white shadow-md shadow-violet-600/10 border border-violet-500/30"
                         : "text-slate-400 hover:text-white hover:bg-white/5"
                     }`}
                   >
@@ -561,7 +560,7 @@ export default function Home() {
             </div>
 
             {/* Right Doc Main Display */}
-            <div className="lg:col-span-8 bg-[#090715]/40 border border-white/5 rounded-2xl p-6 sm:p-8 text-left min-h-[380px] shadow-lg flex flex-col justify-between">
+            <div className="lg:col-span-8 bg-[#090715]/40 border border-white/5 rounded-2xl p-6 sm:p-8 text-left min-h-95 shadow-lg flex flex-col justify-between">
               {activeDocTab === "quickstart" && (
                 <div className="space-y-6 animate-fade-in">
                   <div className="space-y-2">
@@ -697,7 +696,7 @@ export default function Home() {
                     </p>
                   </div>
 
-                  <div className="space-y-4 text-sm text-slate-400 space-y-3 leading-relaxed">
+                  <div className="space-y-4 text-sm text-slate-400 sm:space-y-3 leading-relaxed">
                     <p className="text-xs">
                       <strong className="text-white">Why E2B?</strong> Rather
                       than interpreting code locally on your development machine
