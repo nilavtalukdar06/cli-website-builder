@@ -9,6 +9,7 @@ import { apiRateLimiter } from "./lib/rate-limit";
 import AppRoutes from "./routes/create-app";
 import UserRoutes from "./routes/user";
 import DeviceRoutes from "./routes/device";
+import BillingRoutes from "./routes/subscription";
 
 const app: Application = express();
 const port = env.PORT ?? 5500;
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use("/api/auth", UserRoutes);
 app.use("/api/device", DeviceRoutes);
 app.use("/api/app", AppRoutes);
+app.use("/api/billing", BillingRoutes);
 
 app.get("/", (_req: Request, res: Response) => {
   return res
