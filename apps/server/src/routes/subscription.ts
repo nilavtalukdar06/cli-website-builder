@@ -1,10 +1,10 @@
 import express, { Router } from "express";
 import { checkout, portal } from "src/controllers/subscription";
-import { jwtAuth } from "src/middlewares/jwt";
+import { authenticate } from "src/middlewares/auth";
 
 const router: Router = express.Router();
 
-router.post("/checkout", jwtAuth, checkout);
-router.post("/portal", jwtAuth, portal);
+router.post("/checkout", authenticate, checkout);
+router.post("/portal", authenticate, portal);
 
 export default router;
