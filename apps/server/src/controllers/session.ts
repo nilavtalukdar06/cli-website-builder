@@ -4,15 +4,17 @@ import { SessionService } from "src/services/session";
 import { UserService } from "src/services/user";
 import { ApiError } from "src/utils/error";
 import { ApiResponse } from "src/utils/response";
+import { env } from "src/config/env";
 
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const response = await SessionService.login(email, password);
+    const isProduction = env.NODE_ENV === "production";
     res.cookie("session_id", response.session.id, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
     return res.status(StatusCodes.OK).json(
@@ -75,8 +77,17 @@ export const getMe = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
   try {
     const sessionId = req.cookies.session_id;
-    await SessionService.logout(sessionId);
-    res.clearCookie("session_id");
+    if (sessionId) {
+      await SessionService.logout(sessionId).catch((err) => {
+        console.error("Failed to delete session from database on logout:", err);
+      });
+    }
+    const isProduction = env.NODE_ENV === "production";
+    res.clearCookie("session_id", {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+    });
     return res
       .status(StatusCodes.OK)
       .json(

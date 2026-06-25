@@ -12,4 +12,5 @@ export const env = {
   STRIPE_PRICE_ID: process.env.STRIPE_PRICE_ID,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   CLIENT_URL: process.env.CLIENT_URL,
+  NODE_ENV: process.env.NODE_ENV || "development",
 };
