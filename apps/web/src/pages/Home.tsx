@@ -101,7 +101,7 @@ export default function Home() {
           </CardHeader>
           <CardContent className="flex items-center gap-2">
             <code className="flex-1 bg-muted p-2 rounded text-sm font-mono break-all text-left">
-              npm install -g @vibe-code/cli
+              npm install -g @vibe-code-cli/cli
             </code>
             <Button
               variant="outline"

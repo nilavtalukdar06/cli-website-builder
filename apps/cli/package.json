@@ -1,5 +1,5 @@
 {
-  "name": "@vibe-code/cli",
+  "name": "@vibe-code-cli/cli",
   "module": "src/index.tsx",
   "type": "module",
   "version": "1.0.0",
