@@ -9,6 +9,6 @@ export default defineConfig({
   dts: false,
   external: [],
   banner: {
-    js: "#!/usr/bin/env bun",
+    js: "#!/usr/bin/env node",
   },
 });
