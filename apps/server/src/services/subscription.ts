@@ -1,5 +1,8 @@
+import { StatusCodes } from "http-status-codes";
 import { env } from "src/config/env";
 import { stripe } from "src/lib/stripe";
+import { SubscriptionRepository } from "src/repositories/subscription";
+import { ApiError } from "src/utils/error";
 
 export abstract class SubscriptionService {
   constructor() {}
@@ -17,6 +20,23 @@ export abstract class SubscriptionService {
           quantity: 1,
         },
       ],
+    });
+    return session.url;
+  }
+
+  static async createPortalSession(userId: string) {
+    const subscription = await SubscriptionRepository.findByUserId(userId);
+    if (!subscription || !subscription.stripeCustomerId) {
+      throw new ApiError(
+        StatusCodes.NOT_FOUND,
+        false,
+        "No active subscription found. Please subscribe first.",
+        {},
+      );
+    }
+    const session = await stripe.billingPortal.sessions.create({
+      customer: subscription.stripeCustomerId,
+      return_url: `${env.CLIENT_URL}/dashboard`,
     });
     return session.url;
   }

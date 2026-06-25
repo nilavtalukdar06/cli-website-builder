@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getErrorMessage } from "../utils/errors";
+import { BillingService } from "../services/billing.service";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -17,6 +18,7 @@ export default function Dashboard() {
   const { user, logout } = useAuth();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [loadingPortal, setLoadingPortal] = useState(false);
 
   const handleLogout = async () => {
     setErrorMsg(null);
@@ -28,6 +30,21 @@ export default function Dashboard() {
       setErrorMsg(getErrorMessage(err));
     } finally {
       setLoggingOut(false);
+    }
+  };
+
+  const handleManageSubscription = async () => {
+    setErrorMsg(null);
+    setLoadingPortal(true);
+    try {
+      const res = await BillingService.createPortalSession();
+      if (res.success && res.data.portalUrl) {
+        window.location.href = res.data.portalUrl;
+      }
+    } catch (err) {
+      setErrorMsg(getErrorMessage(err));
+    } finally {
+      setLoadingPortal(false);
     }
   };
 
@@ -62,7 +79,15 @@ export default function Dashboard() {
             </div>
           )}
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex flex-col gap-3">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleManageSubscription}
+            disabled={loadingPortal}
+          >
+            {loadingPortal ? "Loading..." : "Manage Subscription"}
+          </Button>
           <Button
             variant="destructive"
             className="w-full"

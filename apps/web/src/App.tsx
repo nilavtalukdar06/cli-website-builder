@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import DeviceAuth from "./pages/DeviceAuth";
+import BillingSuccess from "./pages/BillingSuccess";
+import BillingCancel from "./pages/BillingCancel";
 import { useAuth } from "./hooks/useAuth";
 
 const queryClient = new QueryClient({
@@ -77,6 +79,8 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/billing/success" element={<BillingSuccess />} />
+            <Route path="/billing/cancel" element={<BillingCancel />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { UserRepository } from "src/repositories/user";
+import { SubscriptionService } from "src/services/subscription";
 import { UsageService } from "src/services/usage";
 import { ApiError } from "src/utils/error";
 
@@ -39,6 +40,12 @@ export async function checkCredits(
     });
 
     if (!allowed) {
+      let checkoutUrl: string | null = null;
+      try {
+        checkoutUrl = await SubscriptionService.createCheckoutSession(userId);
+      } catch (_) {
+        // If checkout session creation fails, still return the 402
+      }
       return res
         .status(StatusCodes.PAYMENT_REQUIRED)
         .json(
@@ -46,7 +53,7 @@ export async function checkCredits(
             StatusCodes.PAYMENT_REQUIRED,
             false,
             "You have exhausted your credits, please switch to pro plan for unlimited credits",
-            {},
+            { checkoutUrl },
           ),
         );
     }

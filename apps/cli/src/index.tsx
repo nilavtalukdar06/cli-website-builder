@@ -71,7 +71,7 @@ function App() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${globalThis.ACCESS_TOKEN}`,
+          Authorization: `Bearer ${globalThis.ACCESS_TOKEN}`,
         },
         body: JSON.stringify({
           prompt: promptText,
@@ -81,14 +81,22 @@ function App() {
 
       if (!response.ok) {
         if (response.status === 402) {
-          let errorMessage = "You have exhausted your credits, please switch to pro plan for unlimited credits";
+          let errorMessage =
+            "You have exhausted your credits, please switch to pro plan for unlimited credits";
+          let checkoutUrl = "";
           try {
             const errorData = (await response.json()) as any;
             if (errorData && errorData.message) {
               errorMessage = errorData.message;
             }
+            if (errorData?.errors?.checkoutUrl) {
+              checkoutUrl = errorData.errors.checkoutUrl;
+            }
           } catch (_) {
             // Keep default fallback message
+          }
+          if (checkoutUrl) {
+            errorMessage += `\n\nUpgrade to Pro here: ${checkoutUrl}`;
           }
           throw new Error(errorMessage);
         }
