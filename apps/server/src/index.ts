@@ -12,9 +12,46 @@ import DeviceRoutes from "./routes/device";
 import BillingRoutes from "./routes/subscription";
 import WebhookRoutes from "./routes/webhook";
 import logger from "./config/logger";
+import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from "swagger-jsdoc";
 
 const app: Application = express();
 const port = env.PORT ?? 5500;
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Vibe Code API",
+      version: "1.0.0",
+      description: "API documentation for the Vibe Code workspace CLI and web app",
+    },
+    servers: [
+      {
+        url: `http://localhost:${port}`,
+        description: "Local dev server",
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+        cookieAuth: {
+          type: "apiKey",
+          in: "cookie",
+          name: "session_id",
+        },
+      },
+    },
+  },
+  apis: ["./src/routes/*.ts", "./src/routes/*.js"],
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(
   "/api/webhook",
