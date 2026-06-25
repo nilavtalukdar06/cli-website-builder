@@ -24,7 +24,7 @@ export const handleWebhook = async (req: Request, res: Response) => {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
+    event = await stripe.webhooks.constructEventAsync(
       req.body,
       sig as string,
       env.STRIPE_WEBHOOK_SECRET!,
