@@ -2,9 +2,10 @@
   "name": "@vibe-code/cli",
   "module": "src/index.tsx",
   "type": "module",
+  "version": "1.0.0",
   "private": false,
   "bin": {
-    "vibecode": "./dist/index.js"
+    "vibecode": "dist/index.js"
   },
   "files": [
     "dist"
