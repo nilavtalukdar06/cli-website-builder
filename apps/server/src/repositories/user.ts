@@ -1,3 +1,4 @@
+import { Plan } from "generated/prisma/enums";
 import { prisma } from "../lib/prisma";
 
 export abstract class UserRepository {
@@ -39,5 +40,16 @@ export abstract class UserRepository {
       plan: user.plan,
       generationsUsed: user.generationsUsed,
     };
+  }
+  static async updatePlan(userId: string, plan: Plan) {
+    const updatedPlan = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        plan,
+      },
+    });
+    return updatedPlan;
   }
 }
