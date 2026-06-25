@@ -8,6 +8,7 @@ export default defineConfig({
   splitting: false,
   dts: false,
   external: [],
+  noExternal: ["@opentui/react", "react-reconciler", "react", "react-dom"],
   banner: {
     js: "#!/usr/bin/env node",
   },
