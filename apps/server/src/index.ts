@@ -11,6 +11,7 @@ import UserRoutes from "./routes/user";
 import DeviceRoutes from "./routes/device";
 import BillingRoutes from "./routes/subscription";
 import WebhookRoutes from "./routes/webhook";
+import logger from "./config/logger";
 
 const app: Application = express();
 const port = env.PORT ?? 5500;
@@ -40,4 +41,16 @@ app.get("/", (_req: Request, res: Response) => {
 
 app.listen(port, () => {
   console.log("server is running on port", port);
+
+  setInterval(
+    async () => {
+      try {
+        const response = await fetch(`http://localhost:${port}/`);
+        logger.info(`[Cron] Pinged '/' route: ${response.status}`);
+      } catch (error: any) {
+        logger.error("[Cron] Failed to ping '/' route:", error.message);
+      }
+    },
+    3 * 60 * 1000,
+  );
 });
