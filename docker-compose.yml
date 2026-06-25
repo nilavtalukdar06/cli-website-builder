@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vibe-code-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: vibe_code
+      POSTGRES_USER: vibe_user
+      POSTGRES_PASSWORD: vibe_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vibe_user -d vibe_code"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    container_name: vibe-code-server
+    restart: always
+    ports:
+      - "5500:5500"
+    environment:
+      - PORT=5500
+      - DATABASE_URL=postgresql://vibe_user:vibe_password@postgres:5432/vibe_code?sslmode=disable
+      - JWT_SECRET=PP61YNZVprF5DVwfUefP86aqmdRkWda5SDdvC8XuIRg=
+      - NODE_ENV=production
+      # Pass host environment variables if set in your local shell/.env:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - E2B_API_KEY=${E2B_API_KEY}
+      - E2B_TEMPLATE_ID=${E2B_TEMPLATE_ID}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_PRICE_ID=${STRIPE_PRICE_ID}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - CLIENT_URL=${CLIENT_URL:-http://localhost:3000}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000,http://localhost:8081}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
