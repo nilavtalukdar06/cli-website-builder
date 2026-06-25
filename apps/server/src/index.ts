@@ -10,12 +10,20 @@ import AppRoutes from "./routes/create-app";
 import UserRoutes from "./routes/user";
 import DeviceRoutes from "./routes/device";
 import BillingRoutes from "./routes/subscription";
+import WebhookRoutes from "./routes/webhook";
 
 const app: Application = express();
 const port = env.PORT ?? 5500;
 
 app.use(corsMiddleware);
 app.use(apiRateLimiter);
+
+app.use(
+  "/api/webhook",
+  express.raw({ type: "application/json" }),
+  WebhookRoutes,
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

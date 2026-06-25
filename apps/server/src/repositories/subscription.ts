@@ -32,7 +32,7 @@ export abstract class SubscriptionRepository {
       currentPeriodEnd?: Date;
     },
   ) {
-    const subscription = prisma.subscription.update({
+    const subscription = await prisma.subscription.update({
       where: { userId },
       data,
     });
