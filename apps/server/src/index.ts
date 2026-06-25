@@ -24,7 +24,8 @@ const swaggerOptions = {
     info: {
       title: "Vibe Code API",
       version: "1.0.0",
-      description: "API documentation for the Vibe Code workspace CLI and web app",
+      description:
+        "API documentation for the Vibe Code workspace CLI and web app",
     },
     servers: [
       {

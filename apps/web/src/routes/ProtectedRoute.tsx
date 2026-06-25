@@ -20,7 +20,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (user === null) {
-    const redirectUrl = encodeURIComponent(window.location.pathname + window.location.search);
+    const redirectUrl = encodeURIComponent(
+      window.location.pathname + window.location.search,
+    );
     return <Navigate to={`/login?redirect=${redirectUrl}`} replace />;
   }
 
