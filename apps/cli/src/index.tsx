@@ -72,7 +72,8 @@ function App() {
     ]);
 
     try {
-      const API_URL = process.env.API_URL || "http://localhost:5500";
+      const API_URL =
+        process.env.API_URL || "https://cli-website-builder.onrender.com";
       const response = await fetch(`${API_URL}/api/app/create`, {
         method: "POST",
         headers: {

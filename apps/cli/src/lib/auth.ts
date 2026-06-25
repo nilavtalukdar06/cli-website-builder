@@ -3,7 +3,8 @@ import path from "path";
 import os from "os";
 import { exec } from "child_process";
 
-const API_URL = process.env.API_URL || "http://localhost:5500";
+const API_URL =
+  process.env.API_URL || "https://cli-website-builder.onrender.com";
 
 const AUTH_DIR = path.join(os.homedir(), ".vibecode");
 const AUTH_FILE = path.join(AUTH_DIR, "auth.json");
