@@ -8,7 +8,7 @@ const API_URL = process.env.API_URL || "http://localhost:5500";
 const AUTH_DIR = path.join(os.homedir(), ".vibecode");
 const AUTH_FILE = path.join(AUTH_DIR, "auth.json");
 
-function openUrl(url: string): void {
+export function openUrl(url: string): void {
   const platform = process.platform;
   let cmd = "";
   if (platform === "win32") {

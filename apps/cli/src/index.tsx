@@ -5,6 +5,7 @@ import { createRoot, useKeyboard, useTerminalDimensions } from "@opentui/react";
 import Header from "./components/header";
 import { InputBar } from "./components/input-bar";
 import { bootstrap } from "./bootstrap";
+import { openUrl } from "./lib/auth";
 
 interface Message {
   id: string;
@@ -97,6 +98,7 @@ function App() {
           }
           if (checkoutUrl) {
             errorMessage += `\n\nUpgrade to Pro here: ${checkoutUrl}`;
+            openUrl(checkoutUrl);
           }
           throw new Error(errorMessage);
         }
