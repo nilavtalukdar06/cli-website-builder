@@ -5,7 +5,12 @@ import { createRoot, useKeyboard, useTerminalDimensions } from "@opentui/react";
 import Header from "./components/header";
 import { InputBar } from "./components/input-bar";
 import { bootstrap } from "./bootstrap";
-import { openUrl } from "./lib/auth";
+import {
+  openUrl,
+  clearRefreshToken,
+  deviceLogin,
+  refreshAccessToken,
+} from "./lib/auth";
 
 interface Message {
   id: string;
@@ -453,8 +458,40 @@ function App() {
   );
 }
 
-const auth = await bootstrap();
-globalThis.ACCESS_TOKEN = auth.accessToken;
+async function main() {
+  const args = process.argv.slice(2);
+  const command = args[0];
 
-const renderer = await createCliRenderer();
-createRoot(renderer).render(<App />);
+  if (command === "login") {
+    console.log("Initiating login...");
+    try {
+      const refreshToken = await deviceLogin();
+      await refreshAccessToken(refreshToken);
+      console.log("\n✓ Successfully authenticated!");
+    } catch (err: any) {
+      console.error(`\n✗ Authentication failed: ${err.message || err}`);
+      process.exit(1);
+    }
+    process.exit(0);
+  }
+
+  if (command === "logout") {
+    console.log("Logging out...");
+    await clearRefreshToken();
+    console.log("✓ Logged out successfully.");
+    process.exit(0);
+  }
+
+  try {
+    const auth = await bootstrap();
+    globalThis.ACCESS_TOKEN = auth.accessToken;
+
+    const renderer = await createCliRenderer();
+    createRoot(renderer).render(<App />);
+  } catch (err: any) {
+    console.error(`Failed to start app: ${err.message}`);
+    process.exit(1);
+  }
+}
+
+await main();

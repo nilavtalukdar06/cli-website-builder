@@ -2,10 +2,13 @@
   "name": "@vibe-code/cli",
   "module": "src/index.tsx",
   "type": "module",
-  "private": true,
+  "private": false,
   "bin": {
     "vibecode": "./dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "bun run --watch src/index.tsx",
     "build": "tsup"
