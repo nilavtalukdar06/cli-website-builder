@@ -15,15 +15,14 @@ import WebhookRoutes from "./routes/webhook";
 const app: Application = express();
 const port = env.PORT ?? 5500;
 
-app.use(corsMiddleware);
-app.use(apiRateLimiter);
-
 app.use(
   "/api/webhook",
   express.raw({ type: "application/json" }),
   WebhookRoutes,
 );
 
+app.use(corsMiddleware);
+app.use(apiRateLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
