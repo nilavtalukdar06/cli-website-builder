@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import DeviceAuth from "./pages/DeviceAuth";
 import BillingSuccess from "./pages/BillingSuccess";
 import BillingCancel from "./pages/BillingCancel";
-import { useAuth } from "./hooks/useAuth";
+import Home from "./pages/Home";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,33 +20,13 @@ const queryClient = new QueryClient({
   },
 });
 
-function RootRoute() {
-  const { user, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="text-sm font-medium text-muted-foreground animate-pulse">
-          Loading...
-        </div>
-      </div>
-    );
-  }
-
-  return user ? (
-    <Navigate to="/dashboard" replace />
-  ) : (
-    <Navigate to="/login" replace />
-  );
-}
-
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<RootRoute />} />
+            <Route path="/" element={<Home />} />
             <Route
               path="/login"
               element={
